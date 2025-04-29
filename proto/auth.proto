@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "roomsbackend/proto/generated/auth;auth";
+
+import "google/api/annotations.proto";
+
+// gRPC-сервис авторизации
+service AuthService {
+  rpc Register (RegisterRequest) returns (RegisterResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/register"
+      body: "*"
+    };
+  }
+
+  rpc Login (LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/login"
+      body: "*"
+    };
+  }
+
+  rpc RefreshToken (RefreshRequest) returns (RefreshResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/refresh"
+      body: "*"
+    };
+  }
+
+  rpc UpdateSessionTTL(UpdateSessionTTLRequest) returns (UpdateSessionTTLResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/session-ttl"
+      body: "*"
+    };
+  }
+
+  rpc Logout(LogoutRequest) returns (LogoutResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/logout"
+      body: "*"
+    };
+  }
+}
+
+// Запрос на регистрацию
+message RegisterRequest {
+  string login = 1;
+  string password = 2;
+  string nickname = 3;
+  string first_name = 4;
+  string last_name = 5;
+  string avatar_url = 6;
+}
+
+// Ответ на регистрацию
+message RegisterResponse {
+  string user_id = 1;
+  string access_token = 2;
+  string refresh_token = 3;
+}
+
+// Запрос на логин
+message LoginRequest {
+  string login = 1;
+  string password = 2;
+}
+
+// Ответ на логин
+message LoginResponse {
+  string user_id = 1;
+  string access_token = 2;
+  string refresh_token = 3;
+}
+
+message RefreshRequest {
+  string refresh_token = 1;
+}
+
+message RefreshResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message UpdateSessionTTLRequest {
+  string ttl = 1; // например "1h", "24h", "7d"
+}
+
+message UpdateSessionTTLResponse {
+  string status = 1;
+}
+
+message LogoutRequest {
+  string refresh_token = 1;
+}
+
+message LogoutResponse {
+  string status = 1;
+}

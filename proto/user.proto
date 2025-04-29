@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "roomsbackend/proto/generated/user;user";
+
+import "google/api/annotations.proto";
+
+// UserService описывает методы работы с профилем пользователя.
+service UserService {
+  // CreateUserProfile создаёт профиль пользователя после регистрации.
+  rpc CreateUserProfile (CreateUserProfileRequest) returns (CreateUserProfileResponse) {
+    option (google.api.http) = {
+      post: "/v1/user"
+      body: "*"
+    };
+  }
+
+  // Получение профиля по ID
+  rpc GetUserProfile(GetUserProfileRequest) returns (GetUserProfileResponse) {
+    option (google.api.http) = {
+      get: "/v1/user/{user_id}"
+    };
+  }
+
+  // Обновление профиля
+  rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse) {
+    option (google.api.http) = {
+      put: "/v1/user/{user_id}"
+      body: "*"
+    };
+  }
+
+  rpc SearchUsers(SearchUsersRequest) returns (SearchUsersResponse) {
+    option (google.api.http) = {
+      get: "/v1/user/search"
+    };
+  }
+}
+
+// CreateUserProfileRequest содержит поля для создания профиля.
+message CreateUserProfileRequest {
+  string user_id = 1;
+  string nickname = 2;
+  string first_name = 3;
+  string last_name = 4;
+  string avatar_url = 5;
+  string bio = 6;
+  string position = 7;
+  string phone_number = 8;
+}
+
+// CreateUserProfileResponse возвращает результат создания.
+message CreateUserProfileResponse {
+  string status = 1;
+}
+
+// Запрос на получение профиля
+message GetUserProfileRequest {
+  string user_id = 1;
+}
+
+// Ответ с данными профиля
+message GetUserProfileResponse {
+  string user_id = 1;
+  string nickname = 2;
+  string first_name = 3;
+  string last_name = 4;
+  string avatar_url = 5;
+  string bio = 6;
+  string position = 7;
+  string phone_number = 8;
+}
+
+// Запрос на обновление профиля
+message UpdateUserProfileRequest {
+  string user_id = 1;
+  string nickname = 2;
+  string first_name = 3;
+  string last_name = 4;
+  string avatar_url = 5;
+  string bio = 6;
+  string position = 7;
+  string phone_number = 8;
+}
+
+// Ответ на обновление
+message UpdateUserProfileResponse {
+  string status = 1;
+}
+
+message SearchUsersRequest {
+  string query = 1;
+}
+
+message SearchUserResult {
+  string user_id = 1;
+  string nickname = 2;
+  string first_name = 3;
+  string last_name = 4;
+  string avatar_url = 5;
+}
+
+message SearchUsersResponse {
+  repeated SearchUserResult users = 1;
+}

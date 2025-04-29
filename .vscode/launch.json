@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Run Auth Service",
+        "type": "go",
+        "request": "launch",
+        "mode": "auto",
+        "program": "${workspaceFolder}/services/auth/main.go",
+        "envFile": "${workspaceFolder}/services/auth/.env"
+      },
+      {
+        "name": "Run User Service",
+        "type": "go",
+        "request": "launch",
+        "mode": "auto",
+        "program": "${workspaceFolder}/services/user/main.go",
+        "envFile": "${workspaceFolder}/services/user/.env"
+      }
+    ]
+  }
+  
